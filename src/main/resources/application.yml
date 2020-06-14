@@ -1,0 +1,11 @@
+spring:
+  h2.console:
+    enabled: true
+    path: '/console'
+  datasource:
+    url: 'jdbc:h2:file:C:/Users/Vetom/OneDrive/Dokumenty/GitHub/udemy-kurs-spring/test'
+
+task.template.allowMultipleTasks: false
+
+my.prop: 'Siemako'
+
