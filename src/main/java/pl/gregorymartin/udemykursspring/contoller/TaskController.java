@@ -2,7 +2,6 @@ package pl.gregorymartin.udemykursspring.contoller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,17 +17,12 @@ import java.util.List;
 class TaskController {
     private Logger logger = LoggerFactory.getLogger(TaskController.class);
 
-    @Value("${my.prop}")
-    private String siemano;
-
     private final TaskRepository repository;
+
+
 
     TaskController(final TaskRepository repository) {
         this.repository = repository;
-    }
-    @GetMapping
-    String siema(){
-        return siemano;
     }
 
     @GetMapping(value = "/tasks", params = {"!sort", "!page", "!size"})
