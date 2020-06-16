@@ -1,52 +1,44 @@
 package pl.gregorymartin.udemykursspring.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
 
 @Entity
-public class Task {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+@Table(name = "tasks")
+public class Task extends BaseTask{
+    private LocalDateTime deadline;
 
-    @NotEmpty
-    @NotBlank
-    private String description;
-    private boolean done;
+    @ManyToOne
+    @JoinColumn(name = "task_group_id")
+    private TaskGroup group;
+
 
     public Task() {
     }
 
-    public Task(final String description, final boolean done) {
-        this.description = description;
-        this.done = done;
+    public LocalDateTime getDeadline() {
+        return deadline;
     }
 
-    public int getId() {
-        return id;
+    public void setDeadline(final LocalDateTime deadline) {
+        this.deadline = deadline;
     }
 
-    public void setId(final int id) {
-        this.id = id;
+    TaskGroup getGroup() {
+        return group;
     }
 
-    public String getDescription() {
-        return description;
+    public void setGroup(final TaskGroup group) {
+        this.group = group;
     }
 
-    public void setDescription(final String description) {
-        this.description = description;
-    }
-
-    public boolean isDone() {
-        return done;
-    }
-
-    public void setDone(final boolean done) {
-        this.done = done;
+    public void updateFrom(Task source) {
+        description = source.description;
+        done = source.done;
+        deadline = source.deadline;
+        group = source.group;
     }
 }
+

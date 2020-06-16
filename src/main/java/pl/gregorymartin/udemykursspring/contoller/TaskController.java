@@ -1,5 +1,6 @@
 package pl.gregorymartin.udemykursspring.contoller;
 
+import com.sun.org.apache.regexp.internal.RE;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
@@ -9,6 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.gregorymartin.udemykursspring.model.Task;
 import pl.gregorymartin.udemykursspring.model.TaskRepository;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
@@ -67,9 +69,23 @@ class TaskController {
         if(!repository.existsById(id)){
             return ResponseEntity.notFound().build();
         }
-        task.setId(id);
-        repository.save(task);
-        return ResponseEntity.ok(task);
+        repository.findById(id)
+                .ifPresent(x -> {
+                    x.updateFrom(task);
+                    repository.save(x);
+                });
+        return ResponseEntity.noContent().build();
+    }
+    @Transactional
+    @PatchMapping("/tasks/{id}")
+    public ResponseEntity<?> toggleTask(@PathVariable int id){
+        if (!repository.existsById(id)){
+            return ResponseEntity.notFound().build();
+        }
+        repository.findById(id)
+                .ifPresent(x -> x.setDone(!x.isDone()));
+
+        return ResponseEntity.ok().build();
     }
 
 
