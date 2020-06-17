@@ -13,9 +13,12 @@ public class TaskGroup extends BaseTask{
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "group")
     private Set<Task> tasks;
 
+    @ManyToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
+
     public TaskGroup() {
     }
-
 
     public Set<Task> getTasks() {
         return tasks;
@@ -23,6 +26,14 @@ public class TaskGroup extends BaseTask{
 
     public void setTasks(final Set<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(final Project project) {
+        this.project = project;
     }
 }
 
