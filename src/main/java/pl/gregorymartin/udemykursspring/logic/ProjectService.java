@@ -1,17 +1,13 @@
 package pl.gregorymartin.udemykursspring.logic;
 
-import org.springframework.stereotype.Service;
 import pl.gregorymartin.udemykursspring.TaskConfigurationProperties;
 import pl.gregorymartin.udemykursspring.model.*;
 import pl.gregorymartin.udemykursspring.model.projection.GroupReadModel;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-@Service
 public class ProjectService {
     private ProjectRepository projectRepository;
     private TaskGroupRepository taskGroupRepository;

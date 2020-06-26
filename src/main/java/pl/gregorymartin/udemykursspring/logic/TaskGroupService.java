@@ -1,7 +1,5 @@
 package pl.gregorymartin.udemykursspring.logic;
 
-import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.RequestScope;
 import pl.gregorymartin.udemykursspring.model.TaskGroup;
 import pl.gregorymartin.udemykursspring.model.TaskGroupRepository;
 import pl.gregorymartin.udemykursspring.model.TaskRepository;
@@ -11,8 +9,6 @@ import pl.gregorymartin.udemykursspring.model.projection.GroupWriteModel;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
-@RequestScope
 public class TaskGroupService {
     private TaskGroupRepository repository;
     private TaskRepository taskRepository;
