@@ -19,7 +19,7 @@ class BaseTask extends Audit {
         return id;
     }
 
-    public void setId(final int id) {
+    void setId(final int id) {
         this.id = id;
     }
 

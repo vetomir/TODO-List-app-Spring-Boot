@@ -1,10 +1,7 @@
 package pl.gregorymartin.udemykursspring.logic;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
-import pl.gregorymartin.udemykursspring.TaskConfigurationProperties;
-import pl.gregorymartin.udemykursspring.model.Task;
 import pl.gregorymartin.udemykursspring.model.TaskGroup;
 import pl.gregorymartin.udemykursspring.model.TaskGroupRepository;
 import pl.gregorymartin.udemykursspring.model.TaskRepository;
@@ -36,6 +33,7 @@ public class TaskGroupService {
                 .collect(Collectors.toList());
     }
 
+
     public void toggleGroup(int groupId){
         if (taskRepository.existsByDoneIsFalseAndGroup_Id(groupId)){
             throw new IllegalStateException("Group has undone tasks. Done all the tasks first");
@@ -44,6 +42,7 @@ public class TaskGroupService {
                 .orElseThrow(() -> new IllegalArgumentException("TaskGroup with given id not found"));
 
         result.setDone(!result.isDone());
+        repository.save(result);
     }
 
 }
