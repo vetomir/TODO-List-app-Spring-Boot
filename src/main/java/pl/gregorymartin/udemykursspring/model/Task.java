@@ -18,9 +18,16 @@ public class Task extends BaseTask{
     public Task() {
     }
 
-    public Task(final LocalDateTime deadline, String description) {
+    public Task(String description, LocalDateTime deadline) {
+        this(description, deadline, null);
+    }
+
+    public Task(String description, LocalDateTime deadline, TaskGroup group) {
         this.description = description;
         this.deadline = deadline;
+        if (group != null) {
+            this.group = group;
+        }
     }
 
     public LocalDateTime getDeadline() {

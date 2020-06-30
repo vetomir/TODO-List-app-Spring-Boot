@@ -26,4 +26,6 @@ public interface TaskRepository {
     void delete(Task x);
 
     void deleteById(Integer id);
+
+    List<Task> findAllByGroup_Id(Integer groupId);
 }

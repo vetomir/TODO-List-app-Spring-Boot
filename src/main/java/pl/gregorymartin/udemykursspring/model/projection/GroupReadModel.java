@@ -4,25 +4,38 @@ import pl.gregorymartin.udemykursspring.model.Task;
 import pl.gregorymartin.udemykursspring.model.TaskGroup;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class GroupReadModel {
+    private int id;
     private String description;
-    //deadline from the latest task in group
+    /**
+     * Deadline form the latest task in group.
+     */
     private LocalDateTime deadline;
     private Set<GroupTaskReadModel> tasks;
 
     public GroupReadModel(TaskGroup source) {
-        this.description = source.getDescription();
+        id = source.getId();
+        description = source.getDescription();
         source.getTasks().stream()
                 .map(Task::getDeadline)
+                .filter(Objects::nonNull)
                 .max(LocalDateTime::compareTo)
                 .ifPresent(date -> deadline = date);
-
-        this.tasks = source.getTasks().stream()
+        tasks = source.getTasks().stream()
                 .map(GroupTaskReadModel::new)
                 .collect(Collectors.toSet());
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(final int id) {
+        this.id = id;
     }
 
     public String getDescription() {

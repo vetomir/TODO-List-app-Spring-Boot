@@ -31,8 +31,8 @@ class TaskControllerE2ETest {
     void httpGet_returnsAllTasks(){
         //given
         int initial = repo.findAll().size();
-        repo.save(new Task(LocalDateTime.now() , "foo"));
-        repo.save(new Task(LocalDateTime.now() , "bar"));
+        repo.save(new Task("foo" ,LocalDateTime.now() ));
+        repo.save(new Task("bar" , LocalDateTime.now()));
         //when
         Task[] result = restTemplate.getForObject("http://localhost:" + port + "/tasks", Task[].class);
 

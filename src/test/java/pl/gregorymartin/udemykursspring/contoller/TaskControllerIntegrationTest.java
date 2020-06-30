@@ -31,7 +31,7 @@ class TaskControllerIntegrationTest {
     @Test
     void httpGet_returnsGivenTask() throws Exception {
         //given
-        int id = repo.save(new Task(LocalDateTime.now(),"foo")).getId();
+        int id = repo.save(new Task("foo" ,LocalDateTime.now())).getId();
 
 
         //when + then

@@ -31,7 +31,7 @@ class TaskControllerLightIntegrationTest {
     @Test
     void httpGet_returnsGivenTask() throws Exception {
         //given
-        when(repo.findById(anyInt())).thenReturn(Optional.of(new Task(LocalDateTime.now(),"foo")));
+        when(repo.findById(anyInt())).thenReturn(Optional.of(new Task("foo" ,LocalDateTime.now())));
 
 
         //when + then

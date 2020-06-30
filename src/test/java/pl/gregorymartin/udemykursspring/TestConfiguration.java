@@ -88,6 +88,12 @@ class TestConfiguration {
             public void deleteById(final Integer id) {
 
             }
+
+            @Override
+            public List<Task> findAllByGroup_Id(final Integer groupId) {
+                //todo
+                return null;
+            }
         };
     }
 }
