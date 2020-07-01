@@ -5,12 +5,14 @@ import pl.gregorymartin.udemykursspring.model.ProjectStep;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
 public class ProjectWriteModel {
     @NotBlank(message = "Project's description must not be empty")
+    @NotEmpty
     private String description;
     @Valid
     private List<ProjectStep> steps = new ArrayList<>();
@@ -42,4 +44,6 @@ public class ProjectWriteModel {
         result.setSteps(new HashSet<>(steps));
         return result;
     }
+
+
 }

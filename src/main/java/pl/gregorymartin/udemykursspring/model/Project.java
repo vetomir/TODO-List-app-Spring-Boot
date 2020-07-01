@@ -2,24 +2,22 @@ package pl.gregorymartin.udemykursspring.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
 @Entity
 @Table(name = "projects")
-public
-class Project {
+public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    @NotBlank(message = "Project description need to have description")
+    private int id;
+    @NotBlank(message = "Project's description must not be empty")
+    @NotEmpty
     private String description;
-
     @OneToMany(mappedBy = "project")
     private Set<TaskGroup> groups;
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
     private Set<ProjectStep> steps;
-
 
     public Project() {
     }
@@ -28,7 +26,7 @@ class Project {
         return id;
     }
 
-    void setId(final int id) {
+    public void setId(final int id) {
         this.id = id;
     }
 

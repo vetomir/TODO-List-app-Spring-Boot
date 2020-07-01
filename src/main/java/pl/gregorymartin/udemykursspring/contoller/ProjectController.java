@@ -16,7 +16,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/projects")
-class ProjectController {
+public class ProjectController {
     private final ProjectService service;
 
     ProjectController(final ProjectService service) {
@@ -35,15 +35,16 @@ class ProjectController {
             BindingResult bindingResult,
             Model model
     ) {
-        if (bindingResult.hasErrors()) {
+        if(bindingResult.hasErrors()){
             return "projects";
         }
         service.save(current);
         model.addAttribute("project", new ProjectWriteModel());
         model.addAttribute("projects", getProjects());
-        model.addAttribute("message", "Dodano projekt!");
+        model.addAttribute("message", "dodano projekt!");
         return "projects";
     }
+
 
     @PostMapping(params = "addStep")
     String addProjectStep(@ModelAttribute("project") ProjectWriteModel current) {
@@ -55,20 +56,21 @@ class ProjectController {
     String createGroup(
             @ModelAttribute("project") ProjectWriteModel current,
             Model model,
-            @PathVariable int id,
+            @PathVariable Integer id,
             @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime deadline
-    ) {
-        try {
+    ){
+        try{
             service.createGroup(deadline, id);
-            model.addAttribute("message", "Dodano grupę!");
-        } catch (IllegalStateException | IllegalArgumentException e) {
-            model.addAttribute("message", "Błąd podczas tworzenia grupy!");
+            model.addAttribute("message", "Git Majonez!");
+        }catch (IllegalStateException | IllegalArgumentException e){
+            model.addAttribute("message", "Błąd: " + e.getMessage());
         }
         return "projects";
     }
 
     @ModelAttribute("projects")
-    List<Project> getProjects() {
+    List<Project> getProjects(){
         return service.readAll();
     }
+
 }

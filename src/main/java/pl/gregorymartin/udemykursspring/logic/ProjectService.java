@@ -1,7 +1,9 @@
 package pl.gregorymartin.udemykursspring.logic;
 
 import pl.gregorymartin.udemykursspring.TaskConfigurationProperties;
-import pl.gregorymartin.udemykursspring.model.*;
+import pl.gregorymartin.udemykursspring.model.Project;
+import pl.gregorymartin.udemykursspring.model.ProjectRepository;
+import pl.gregorymartin.udemykursspring.model.TaskGroupRepository;
 import pl.gregorymartin.udemykursspring.model.projection.GroupReadModel;
 import pl.gregorymartin.udemykursspring.model.projection.GroupTaskWriteModel;
 import pl.gregorymartin.udemykursspring.model.projection.GroupWriteModel;

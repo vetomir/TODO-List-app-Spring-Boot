@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://unpkg.com/awsm.css/dist/awsm_theme_big-stone.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .Bd{
+            border: solid 1px #145e86;
+            flex-grow: 1;
+        }
+        .C\(red\){
+            color: red;
+        }
+        .Bdc\(red\){
+            border-color: red !important;
+        }
+        .P\(0\) {
+            padding: 0;
+        }
+        .P\(10px\) {
+            padding: 10px;
+        }
+        .Flex{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+    </style>
+    <title>Todo - App: Groups</title>
+</head>
+<body>
+<main>
+    <fieldset>
+        <legend>Nowy Projekt</legend>
+        <!--/*@thymesVar id="group" type="pl.gregorymartin.udemykursspring.model.projection.GroupWriteModel"*/-->
+        <form action="#" method="post" th:action="@{/groups}" th:object="${group}">
+            <p class="C(red)" th:if="${#fields.hasAnyErrors()}" th:errors="*{all}"></p>
+            <label>Opis
+                <input type="text" th:field ="*{description}" th:errorclass="'Bdc(red)'"/>
+            </label>
+            <fieldset th:each="task,taskStat : *{tasks}">
+                <legend th:text="|Krok ${taskStat.index + 1 }|"></legend>
+                <label>Opis
+                    <input type="text" th:field ="*{tasks[__${taskStat.index}__].description}" th:errorclass="'Bdc(red)'"/>
+                </label>
+                <label>Opis
+                    <input type="datetime-local" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}" th:field ="*{tasks[__${taskStat.index}__].deadline}"  th:errorclass="'Bdc(red)'"/>
+                </label>
+            </fieldset>
+            <div>
+                <button type="submit" name="addStep">+</button>
+            </div>
+            <p>
+                <button type="submit">Dodaj</button>
+                <button type="reset">Wyczyść</button>
+            </p>
+        </form>
+
+        <!--/*@thymesVar id="message" type="java.lang.String"*/-->
+        <h1 th:if="${message != null}" th:text="${message}"></h1>
+
+        <div class="Flex">
+            <!--/*@thymesVar id="groups" type="pl.gregorymartin.udemykursspring.model.TaskGroup"*/-->
+            <dl th:each="groupInList : ${groups}" class="Bd P(10px)">
+                <dt th:text="${groupInList.description}">...</dt>
+                <dd>
+                    <ul class="P(0)">
+                        <li th:each="task : ${groupInList.getTasks()}" th:text="|${task.description}|"></li>
+                    </ul>
+                    <form action="#" method="post" th:action="@{/groups/{groupId}(groupId=${groupInList.id})}">
+                        <label>Deadline
+                            <input name="deadline" type="datetime-local" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}">
+                        </label>
+                        <button type="submit">Utwórz taski >></button>
+                    </form>
+                </dd>
+            </dl>
+        </div>
+
+    </fieldset>
+</main>
+</body>
+</html>
