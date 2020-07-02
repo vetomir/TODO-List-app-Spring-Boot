@@ -3,30 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://unpkg.com/awsm.css/dist/awsm_theme_big-stone.min.css">
+    <link href="../static/style.css" th:href="@{/style.css}" rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        .Bd{
-            border: solid 1px #145e86;
-            flex-grow: 1;
-        }
-        .C\(red\){
-            color: red;
-        }
-        .Bdc\(red\){
-            border-color: red !important;
-        }
-        .P\(0\) {
-            padding: 0;
-        }
-        .P\(10px\) {
-            padding: 10px;
-        }
-        .Flex{
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-        }
-    </style>
     <title>Todo - App: Projects</title>
 </head>
 <body>
@@ -44,7 +22,7 @@
                     <label>Opis
                         <input type="text" th:field ="*{steps[__${stepStat.index}__].description}" th:errorclass="'Bdc(red)'"/>
                     </label>
-                    <label>Opis
+                    <label>Data
                         <input type="number" th:field ="*{steps[__${stepStat.index}__].daysToDeadline}"  th:errorclass="'Bdc(red)'"/>
                     </label>
                 </fieldset>

@@ -1,5 +1,7 @@
 package pl.gregorymartin.udemykursspring.model;
 
+import pl.gregorymartin.udemykursspring.model.event.TaskEvent;
+
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -45,6 +47,11 @@ public class Task extends BaseTask{
 
     public void setGroup(final TaskGroup group) {
         this.group = group;
+    }
+
+    public TaskEvent toggleDone() {
+        this.setDone(!this.isDone());
+        return TaskEvent.changed(this);
     }
 
     public void updateFrom(Task source) {

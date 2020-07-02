@@ -6,9 +6,14 @@ spring:
     url: 'jdbc:h2:file:C:/Users/Vetom/OneDrive/Dokumenty/GitHub/udemy-kurs-spring/test'
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
 management:
   endpoints:
     web:
       exposure:
         include: '*'
+keycloak:
+  auth-server-url: 'http://localhost:8180/auth'
+  realm: 'TodoApp'
+  resource: 'todo-spring-client'
+  public-client: true

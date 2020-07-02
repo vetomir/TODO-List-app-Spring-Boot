@@ -10,18 +10,20 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
 import pl.gregorymartin.udemykursspring.logic.TaskGroupService;
-import pl.gregorymartin.udemykursspring.model.*;
+import pl.gregorymartin.udemykursspring.model.Task;
+import pl.gregorymartin.udemykursspring.model.TaskRepository;
 import pl.gregorymartin.udemykursspring.model.projection.GroupReadModel;
 import pl.gregorymartin.udemykursspring.model.projection.GroupTaskWriteModel;
 import pl.gregorymartin.udemykursspring.model.projection.GroupWriteModel;
-import pl.gregorymartin.udemykursspring.model.projection.ProjectWriteModel;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
 @Controller
+@IllegalExceptionProcessing
 @RequestMapping("/groups")
 class TaskGroupController {
     private static final Logger logger = LoggerFactory.getLogger(TaskGroupController.class);
@@ -35,14 +37,15 @@ class TaskGroupController {
 
     //
 
-    @GetMapping(produces = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    @GetMapping(produces = MediaType.TEXT_HTML_VALUE)
     String showGroup(Model model) {
-        model.addAttribute("groups", new GroupWriteModel());
+        model.addAttribute("group", new GroupWriteModel());
         return "groups";
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    String addGroup(
+
+    @PostMapping(produces = MediaType.TEXT_HTML_VALUE, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    String createGroup(
             @ModelAttribute("group") @Valid GroupWriteModel current,
             BindingResult bindingResult,
             Model model
@@ -50,16 +53,24 @@ class TaskGroupController {
         if(bindingResult.hasErrors()){
             return "groups";
         }
-        service.createGroup(current);
         model.addAttribute("group", new GroupWriteModel());
-        model.addAttribute("groups", getGroups());
-        model.addAttribute("message", "dodano grupę!");
+        model.addAttribute("groups",getGroups());
+        service.createGroup(current);
+        model.addAttribute("message", "Git Majonez!");
         return "groups";
     }
 
     @PostMapping(params = "addTask", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     String addGroupTask(@ModelAttribute("group") GroupWriteModel current) {
         current.getTasks().add(new GroupTaskWriteModel());
+        return "groups";
+    }
+
+    @PostMapping(params = "removeTask", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    String deleteGroupTask(@ModelAttribute("group") GroupWriteModel current) {
+        if(current.getTasks().size() > 1){
+            current.getTasks().remove(current.getTasks().size()-1);
+        }
         return "groups";
     }
 
@@ -70,7 +81,7 @@ class TaskGroupController {
 
     //
 
-/*    @ResponseBody
+    @ResponseBody
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<GroupReadModel> createGroup(@RequestBody @Valid GroupWriteModel toCreate) {
         GroupReadModel result = service.createGroup(toCreate);
@@ -84,27 +95,16 @@ class TaskGroupController {
     }
 
     @ResponseBody
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<List<Task>> readAllTasksFromGroup(@PathVariable int id) {
         return ResponseEntity.ok(repository.findAllByGroup_Id(id));
     }
 
     @ResponseBody
     @Transactional
-    @PatchMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> toggleGroup(@PathVariable int id) {
         service.toggleGroup(id);
         return ResponseEntity.noContent().build();
-    }*/
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    ResponseEntity<String> handleIllegalArgument(IllegalArgumentException e){
-        return ResponseEntity.notFound().build();
     }
-
-    @ExceptionHandler(IllegalStateException.class)
-    ResponseEntity<String> handleIllegalArgument(IllegalStateException e){
-        return ResponseEntity.badRequest().body(e.getMessage());
-    }
-
 }
